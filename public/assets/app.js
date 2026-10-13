@@ -1,6 +1,6 @@
 const $ = (selector) => document.querySelector(selector);
 const VERIFIED_DATA_ROOT =
-  "https://raw.githubusercontent.com/asjgnetctk-jpg/fc3d-research/main/pages";
+  ".";
 const labels = { dan: "独胆", pool5: "5码", pool6: "6码", pool7: "7码", group3: "组三" };
 const auditPrefix = window.LotteryGame?.id === "pl3" ? "pl3-" : "";
 let payload;

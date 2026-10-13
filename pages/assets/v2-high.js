@@ -1,4 +1,4 @@
-const root = "https://raw.githubusercontent.com/asjgnetctk-jpg/fc3d-research/main/pages";
+const root = ".";
 
 function metricCard(label, metric, baseline, selected = false) {
   const delta = (metric.rate - baseline) * 100;

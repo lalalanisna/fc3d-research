@@ -1,6 +1,6 @@
 const $ = (selector) => document.querySelector(selector);
 const VERIFIED_DATA_ROOT =
-  "https://raw.githubusercontent.com/asjgnetctk-jpg/fc3d-research/main/pages";
+  ".";
 const DATA_FILE = document.body.dataset.v9Data || "v9-data.json";
 const labels = { pool5: "5码", pool6: "6码", pool7: "7码", pool8: "8码" };
 let payload;

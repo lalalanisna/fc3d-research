@@ -1,6 +1,7 @@
 import { copyFile, mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { findTargetHeat } from "./target-heat.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const readJson = async (file) => JSON.parse(await readFile(path.join(root, file), "utf8"));
@@ -199,7 +200,7 @@ const targetIssue = v7.recommendation?.targetIssue ?? v2.recommendation?.targetI
 const basedOnIssue = v7.recommendation?.basedOnIssue ?? latest.issue;
 const basedOnDate = v7.recommendation?.basedOnDate ?? latest.date;
 const targetShortIssue = String(Number(String(targetIssue).slice(-3)));
-const targetHeat = preDrawSnapshots.findLast((row) => String(Number(row.issue)) === targetShortIssue) ?? null;
+const targetHeat = findTargetHeat(source, targetIssue, basedOnDate);
 const optimizedModel = game === "pl3" ? "P22.5-balanced-6x16-state-optimized" : "M22.5-state-optimized";
 const coverageModel = game === "pl3" ? "P22.4-group-cover" : "M22.6-group-cover";
 const modelVersion = game === "pl3" || Number(targetIssue) >= 2026261 ? optimizedModel : "M22.1";

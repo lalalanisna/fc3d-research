@@ -38,7 +38,7 @@ function privatePositionHistoryRow(row) {
     const hit = row[`${key}Hit`];
     return `<div class="position7-line"><span>${name}</span><strong>${row[`${key}Pool`]}</strong><span class="hit-badge${hit ? " is-hit" : ""}">${hit ? "中" : "未中"}</span><small>开奖号${row.draw[index]} · 断${row[`${key}MissStreak`]}</small></div>`;
   }).join("");
-  const phase = row.phase === "prospective-locked" ? "前瞻" : row.phase === "locked-forward" ? "实战" : row.phase === "locked-research" ? "锁定研究" : row.phase === "historical-reconstruction" ? "历史顺序重放" : "训练";
+  const phase = row.phase === "prospective-locked" ? "前瞻" : row.phase === "locked-forward" ? "实战" : row.phase === "locked-research" ? "锁定研究" : row.phase === "historical-reconstruction" ? "历史热度补算" : "训练";
   return `<article class="position7-row"><div class="history-date"><strong>${row.issue}</strong><span>${row.date.slice(5)}</span><em>${phase}</em></div><div class="position7-row-main"><div class="position7-draw">开奖 <strong>${row.draw}</strong><span class="hit-badge${row.allHit ? " is-hit" : ""}">${row.allHit ? "三位全中" : "未全中"}</span></div>${lines}</div></article>`;
 }
 
@@ -140,8 +140,10 @@ function renderMatrixKill3(data) {
     return `<tr><th>${name}</th><td>${s.hitStreak ? `连中${s.hitStreak}期` : `连断${s.missStreak}期`}</td><td>${s.maxMiss ?? '—'}期</td><td>${percentage(s.missRatio ?? 0)}</td><td>${percentage(s.priorHitRate)}</td><td>${s.sampleCount}</td></tr>`;
   }).join('');
   document.querySelector('#matrix-kill3-states').innerHTML=`<p class="section-note">历史最长连断按该玩法全部可用记录统计，截至上一期；当前/最长比值仅供展示，暂不改变推荐算法。接近最长不代表下一期必然成功。缺失期不计作成功或失败，此处是各玩法自身表现，不是杀3码成功率。</p><table><thead><tr><th>玩法</th><th>上一期状态</th><th>历史最长连断</th><th>当前/最长</th><th>最近≤30条成功率</th><th>学习窗口样本</th></tr></thead><tbody>${states}</tbody></table>`;
-  const row = r => `<article><div><strong>${r.issue}期</strong><span>${r.date}</span><em>开奖 ${r.draw}</em><em>${r.phase === 'forward' ? '真实前瞻' : r.phase === 'holdout' || r.phase === 'sequential-replay' ? '顺序回放' : '选模研究'}</em></div><div><span class="${r.hit ? 'matrix-hit' : 'matrix-miss'}">${r.hit ? '成功' : '失败'}</span><p>杀 ${r.kills.split('').join(' · ')} · 连断${r.missStreak}期</p></div></article>`;
-  document.querySelector('#matrix-kill3-forward').innerHTML = data.forwardHistory.length ? data.forwardHistory.slice().reverse().map(row).join('') : '<p class="matrix22-empty">等待本模块首期推荐锁定并开奖。</p>';
+  const row = r => `<article><div><strong>${r.issue}期</strong><span>${r.date}</span><em>开奖 ${r.draw}</em><em>${r.phase === 'historical-reconstruction' ? '历史热度补算（不计前瞻）' : r.phase === 'forward' ? '真实前瞻' : r.phase === 'holdout' || r.phase === 'sequential-replay' ? '顺序回放' : '选模研究'}</em></div><div><span class="${r.hit ? 'matrix-hit' : 'matrix-miss'}">${r.hit ? '成功' : '失败'}</span><p>杀 ${r.kills.split('').join(' · ')} · 连断${r.missStreak}期</p></div></article>`;
+  const liveIssues=new Set(data.forwardHistory.map(r=>String(r.issue)));
+  const records=[...data.forwardHistory,...(data.reconstructionHistory??[]).filter(r=>!liveIssues.has(String(r.issue)))].sort((a,b)=>b.date.localeCompare(a.date));
+  document.querySelector('#matrix-kill3-forward').innerHTML = records.length ? records.map(row).join('') : '<p class="matrix22-empty">等待本模块首期推荐锁定并开奖。</p>';
   document.querySelector('#matrix-kill3-history').innerHTML = data.history.slice(-365).reverse().map(row).join('');
 }
 

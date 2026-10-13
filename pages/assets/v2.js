@@ -1,6 +1,6 @@
 const $ = (selector) => document.querySelector(selector);
 const VERIFIED_DATA_ROOT =
-  "https://raw.githubusercontent.com/asjgnetctk-jpg/fc3d-research/main/pages";
+  ".";
 const labels = {
   dan: "独胆",
   pool5: "5码",

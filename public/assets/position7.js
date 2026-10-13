@@ -1,5 +1,5 @@
 const $ = (selector) => document.querySelector(selector);
-const root = "https://raw.githubusercontent.com/asjgnetctk-jpg/fc3d-research/main/pages";
+const root = ".";
 const names = { hundreds: "百位", tens: "十位", units: "个位" };
 let payload, data;
 let showAll = false;

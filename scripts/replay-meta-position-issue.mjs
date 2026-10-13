@@ -137,6 +137,19 @@ function buildRecommendation(size) {
 
 const recommendations = Object.fromEntries([5, 6, 7].map((size) => [size, buildRecommendation(size)]));
 
+// Prediction-only output is persisted before a separate process can evaluate
+// it. This mode never opens the target issue's result.
+if (process.argv.includes('--predict-only')) {
+  const report={generatedAt:new Date().toISOString(),game,issue,date:targetDate,
+    phase:'historical-reconstruction',heatIssue:heatArchive.issue,
+    heatRankings:heatInput.rankings,cutoffIssue:latest.issue,cutoffDate:latest.date,
+    evidenceClass:'archived heat rankings without contemporaneous 20:20 capture',recommendations};
+  await mkdir(path.join(root,'reports'),{recursive:true});
+  await writeFile(path.join(root,'reports',`${game}-meta-position-prediction-${issue}.json`),JSON.stringify(report,null,2)+'\n');
+  console.log(JSON.stringify({game,issue,cutoffIssue:latest.issue,recommendations}));
+  process.exit(0);
+}
+
 // Open the answer only after all recommendations are frozen above.
 const official = source.rows.find((row) => String(row.issue) === issue);
 if (!official) throw new Error(`No official result for ${issue}`);

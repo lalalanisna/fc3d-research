@@ -4,6 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { configs, digitRows, buildIndex, train, predictProbabilities } from "./backtest-trustworthy-matrix22-ml.mjs";
 import { pairLifts, coordinatedPools } from "./optimize-position-joint-pairs.mjs";
+import { findTargetHeat } from "./target-heat.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const game = process.env.LOTTERY_GAME === "pl3" ? "pl3" : "fc3d";
@@ -57,7 +58,7 @@ const indexData = buildIndex(rows);
 const targetIndex = rows.length;
 const targetIssue = String(v7.recommendation?.targetIssue ?? v2.recommendation?.targetIssue ?? "下一期");
 const targetShortIssue = String(Number(targetIssue.slice(-3)));
-const targetHeat = (heat.preDrawSnapshots ?? []).findLast((row) => String(Number(row.issue)) === targetShortIssue) ?? null;
+const targetHeat = findTargetHeat(heat, targetIssue, rows.at(-1).date);
 const referenceHeat = targetHeat ?? heat.rows?.at(-1) ?? null;
 const current = {
   v7: v7.recommendation,

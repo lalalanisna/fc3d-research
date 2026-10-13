@@ -2,18 +2,21 @@ name: 更新双彩数据并发布
 
 on:
   push:
-    branches:
-      - main
-  # Recommendations remain hidden until an actual current-issue heat snapshot
-  # is available. Retry after 20:20 Beijing because the source can publish late.
+    branches: [main]
   schedule:
-    # Beijing 20:20 onward: capture heat and lock both games; stagger off :00.
-    - cron: "20,30,40,50 12 * * *"
-    - cron: "7,27,47 13 * * *"
-    # Post-draw official results, with overnight and next-day recovery.
+    # Beijing 19:47 / 20:07: pre-warm, then wait for actual 20:20 heat.
+    - cron: "47 11 * * *"
+    - cron: "7,20,30,40,50 12 * * *"
+    # After capture: draw results and next-day base preparation.
     - cron: "7,27,47 14 * * *"
-    - cron: "17 15,22,1 * * *"
+    - cron: "17 15,22,1,4 * * *"
   workflow_dispatch:
+    inputs:
+      mode:
+        description: 自动选择晚间快速更新，或全量更新
+        type: choice
+        options: [auto, full]
+        default: auto
 
 permissions:
   contents: write
@@ -22,12 +25,12 @@ permissions:
 
 concurrency:
   group: pages
-  # Do not cancel a partially completed capture/deploy when the next tick arrives.
   cancel-in-progress: false
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 80
     steps:
       - uses: actions/checkout@v4
         with:
@@ -35,124 +38,31 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: 更新17500用户热度排名（非官方销量）
-        id: fc_heat
-        continue-on-error: true
-        timeout-minutes: 2
-        run: node scripts/fetch-17500-heat.mjs
-      - name: 更新排列3用户热度排名（非官方销量）
-        id: pl_heat
-        continue-on-error: true
-        timeout-minutes: 2
-        env:
-          LOTTERY_GAME: "pl3"
-        run: node scripts/fetch-17500-heat.mjs
-      - name: 重试暂时失败的福彩热度抓取
-        if: steps.fc_heat.outcome == 'failure'
-        continue-on-error: true
-        timeout-minutes: 2
-        run: node scripts/fetch-17500-heat.mjs
-      - name: 重试暂时失败的体彩热度抓取
-        if: steps.pl_heat.outcome == 'failure'
-        continue-on-error: true
-        timeout-minutes: 2
-        env:
-          LOTTERY_GAME: "pl3"
-        run: node scripts/fetch-17500-heat.mjs
-      - name: 优先读取福彩官方开奖并生成静态数据
-        timeout-minutes: 8
-        run: node scripts/generate-v7-static-data.mjs
-      - name: 更新体彩排列3官方历史数据
-        timeout-minutes: 8
-        run: node scripts/fetch-pl3-history.mjs
-      - name: 生成体彩排列3独立页面数据
-        env:
-          LOTTERY_GAME: "pl3"
-        run: node scripts/generate-v7-static-data.mjs
-      - name: 生成福彩定位5/6/7码一年权重训练数据
-        run: node scripts/generate-position-pools-static-data.mjs
-      - name: 生成体彩定位5/6/7码一年权重训练数据
-        env:
-          LOTTERY_GAME: "pl3"
-        run: node scripts/generate-position-pools-static-data.mjs
-      - name: 生成福彩三位联合定位独立数据
-        env:
-          POSITION_MODEL: "joint"
-        run: node scripts/generate-position-pools-static-data.mjs
-      - name: 生成体彩三位联合定位独立数据
-        env:
-          LOTTERY_GAME: "pl3"
-          POSITION_MODEL: "joint"
-        run: node scripts/generate-position-pools-static-data.mjs
-      - name: 生成福彩可信定位独立盲测数据
-        env:
-          POSITION_MODEL: "trustworthy"
-        run: node scripts/generate-position-pools-static-data.mjs
-      - name: 生成体彩可信定位独立盲测数据
-        env:
-          LOTTERY_GAME: "pl3"
-          POSITION_MODEL: "trustworthy"
-        run: node scripts/generate-position-pools-static-data.mjs
-      - name: 生成福彩融合定位前瞻数据
-        run: node scripts/generate-position-meta-data.mjs
-      - name: 生成体彩融合定位前瞻数据
-        env:
-          LOTTERY_GAME: "pl3"
-        run: node scripts/generate-position-meta-data.mjs
-      - name: 生成福彩3D每日3个杀码
-        run: node scripts/generate-kill3-static-data.mjs
-      - name: 生成体彩排列3每日3个杀码
-        env:
-          LOTTERY_GAME: "pl3"
-        run: node scripts/generate-kill3-static-data.mjs
-      - name: 生成福彩3D V9实验数据
-        run: node scripts/generate-v9-static-data.mjs
-      - name: 生成福彩3D V9.2近一年实验数据
-        env:
-          V9_VARIANT: "v9-2"
-          V9_CONFIG_NAME: "v9-2-low-hit-config.json"
-          V9_RESULT_NAME: "v9-2-low-hit-training.json"
-        run: node scripts/generate-v9-static-data.mjs
-      - name: 汇总全部专家并生成加密22组矩阵
-        run: node scripts/generate-heat-module-data.mjs
-      - name: 汇总排列3独立专家并生成加密22组矩阵
-        env:
-          LOTTERY_GAME: "pl3"
-        run: node scripts/generate-heat-module-data.mjs
-      - name: 生成福彩矩阵融合杀3码
-        run: node scripts/generate-matrix-kill3-dynamic.mjs
-      - name: 生成体彩矩阵融合杀3码
-        env:
-          LOTTERY_GAME: "pl3"
-        run: node scripts/generate-matrix-kill3-dynamic.mjs
-      - name: 核对融合杀码逐期结果
-        run: node --test tests/matrix-kill3-dynamic.test.mjs tests/daily-update.test.mjs
-      - name: 发布前逐期核对数据、命中标记和连续遗漏
-        run: node --test tests/published-data-integrity.test.mjs tests/combination-omissions.test.mjs tests/pl3-data.test.mjs tests/position7-data.test.mjs tests/kill3-data.test.mjs tests/v9-low-hit.test.mjs tests/v9-2-low-hit.test.mjs tests/matrix22-data.test.mjs
+      - name: 两彩同步更新（晚间只抓热度和生成矩阵）
+        run: node scripts/update-daily.mjs --mode "${{ inputs.mode || 'auto' }}"
+      - name: 核对两彩推荐、判中、遗漏与热度存档
+        run: node --test tests/daily-update.test.mjs tests/target-heat.test.mjs tests/matrix-reconstruction.test.mjs tests/matrix-kill3-dynamic.test.mjs tests/published-data-integrity.test.mjs tests/combination-omissions.test.mjs tests/pl3-data.test.mjs tests/position7-data.test.mjs tests/kill3-data.test.mjs tests/v9-low-hit.test.mjs tests/v9-2-low-hit.test.mjs tests/matrix22-data.test.mjs
       - name: 保存验证后的最新开奖和页面数据
         run: |
-          if ! git diff --quiet -- scripts/data/fc3d-full-history.json scripts/data/fc3d-17500-heat.json scripts/results/full-history-integrity.json scripts/data/pl3-full-history.json scripts/data/pl3-17500-heat.json scripts/results/pl3-full-history-integrity.json pages public; then
+          if ! git diff --quiet -- scripts/data scripts/results pages public; then
             git config user.name "fc3d-data-bot"
             git config user.email "actions@users.noreply.github.com"
-            git add scripts/data/fc3d-full-history.json scripts/data/fc3d-17500-heat.json scripts/results/full-history-integrity.json scripts/data/pl3-full-history.json scripts/data/pl3-17500-heat.json scripts/results/pl3-full-history-integrity.json pages public
-            git commit -m "Update verified 3-digit draw data and pages [skip ci]"
+            git add scripts/data scripts/results pages public
+            git commit -m "Update verified dual-game data and pages [skip ci]"
             git push origin HEAD:main
           fi
       - uses: actions/configure-pages@v5
-        with:
-          enablement: true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: pages
-
   deploy:
+    runs-on: ubuntu-latest
+    needs: build
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
     steps:
-      - name: 发布到 GitHub Pages
+      - name: 发布双彩全部模块
         id: deployment
         uses: actions/deploy-pages@v4
       - uses: actions/checkout@v4
@@ -161,5 +71,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: 发布后检查两彩日期、矩阵同步和正式推荐
+      - name: 检查新网站两彩期号与热度批次
         run: node scripts/check-daily-update.mjs --online
+      - name: 更新失败说明
+        if: failure()
+        run: |
+          echo "::error::双彩发布或同步检查失败，请检查本次运行日志；不得把历史回放补成真实前瞻。"

@@ -24,10 +24,19 @@ const beijingParts = new Intl.DateTimeFormat("en-CA", {
 }).formatToParts(now).reduce((result, part) => ({ ...result, [part.type]: part.value }), {});
 const beijingDate = `${beijingParts.year}-${beijingParts.month}-${beijingParts.day}`;
 const beijingMinute = Number(beijingParts.hour) * 60 + Number(beijingParts.minute);
-// 17500 labels this user-selection statistic as closing at 20:30. GitHub's
-// scheduler can be delayed well beyond the requested cron minute, so accept
-// the unchanged published snapshot until 21:50 instead of silently missing it.
-const insidePreDrawCaptureWindow = beijingMinute >= 20 * 60 + 20 && beijingMinute <= 21 * 60 + 50;
+// Share the same before-21:00 capture boundary as every matrix module.
+const insidePreDrawCaptureWindow = beijingMinute >= 20 * 60 + 20 && beijingMinute < 21 * 60;
+
+function captureFields() {
+  const time = new Date();
+  const p = Object.fromEntries(new Intl.DateTimeFormat('en-CA', {
+    timeZone:'Asia/Shanghai',year:'numeric',month:'2-digit',day:'2-digit',
+    hour:'2-digit',minute:'2-digit',hourCycle:'h23',
+  }).formatToParts(time).map(p=>[p.type,p.value]));
+  const date=`${p.year}-${p.month}-${p.day}`,minute=Number(p.hour)*60+Number(p.minute);
+  if(date!==beijingDate||minute<1220||minute>=1260)throw new Error('Heat response arrived outside the capture window');
+  return {capturedAt:time.toISOString(),capturedAtBeijing:`${date} ${p.hour}:${p.minute}`};
+}
 
 function clean(value) {
   return value
@@ -170,9 +179,8 @@ if (
     issue: liveHeat.issue,
     date: liveHeat.date,
     rankings: liveHeat.rankings,
-    capturedAt,
-    capturedAtBeijing: `${beijingDate} ${beijingParts.hour}:${beijingParts.minute}`,
-    captureWindow: "20:20—21:50 (source statistics close at 20:30)",
+    ...captureFields(),
+    captureWindow: "20:20—20:59 (actual capture timestamp retained)",
   });
   snapshotAdded = true;
 }
@@ -184,6 +192,7 @@ if (
   insidePreDrawCaptureWindow
   && !preDrawSnapshots.some((row) => row.date === beijingDate)
   && latest
+  && latest.date < beijingDate
 ) {
   const latestYear = Number(String(latest.date).slice(0, 4));
   const nextShortIssue = latestYear === Number(beijingParts.year) ? Number(latest.issue) + 1 : 1;
@@ -198,9 +207,8 @@ if (
         issue: nextIssue,
         date: beijingDate,
         rankings: [...exact.positionCounts.map(rankCounts), rankCounts(aggregateCounts)],
-        capturedAt,
-        capturedAtBeijing: `${beijingDate} ${beijingParts.hour}:${beijingParts.minute}`,
-        captureWindow: "20:20—21:50 (source statistics close at 20:30)",
+        ...captureFields(),
+        captureWindow: "20:20—20:59 (actual capture timestamp retained)",
         captureRoute: listFetchError ? "issue-detail-fallback-after-list-error" : "issue-detail-fallback",
         ...exact,
       });

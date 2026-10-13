@@ -2,13 +2,41 @@ import {readFile,writeFile} from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {DynamicKill3,metric} from './matrix-kill3-dynamic-core.mjs';
+import {findTargetHeat} from './target-heat.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const game=process.env.LOTTERY_GAME==='pl3'?'pl3':'fc3d',prefix=game==='pl3'?'pl3-':'';
 const read=async file=>JSON.parse(await readFile(path.join(root,file),'utf8'));
-const source=await read(`scripts/data/${game}-full-history.json`),draws=source.rows;
+const source=await read(`scripts/data/${game}-full-history.json`);
 const heat=await read(`scripts/data/${game}-17500-heat.json`),matrix=await read(`pages/${prefix}heat-data.json`);
+const replayIssue=process.env.REPLAY_ISSUE??null;
+let replayHeat=null;
+if(replayIssue){
+  const year=replayIssue.length===7?replayIssue.slice(0,4):`20${replayIssue.slice(0,2)}`;
+  const row=heat.rows.find(r=>r.date.startsWith(year)&&String(Number(r.issue))===String(Number(replayIssue.slice(-3))));
+  if(!row)throw new Error('Archived heat missing');
+  replayHeat={issue:row.issue,date:row.date,rankings:row.rankings};
+  source.rows=source.rows.filter(r=>r.date<replayHeat.date);
+  heat.rows=heat.rows.filter(r=>r.date<replayHeat.date);
+  for(const key of ['matrix22','matrix22Coverage']){
+    const historical=matrix[key].replayRows.find(r=>r.date===replayHeat.date);
+    if(!historical)throw new Error(`${key} historical prediction missing`);
+    matrix[key]={...matrix[key],targetIssue:replayIssue,numbers:historical.numbers};
+  }
+}
+const draws=source.rows;
 const sources={};
 for(const name of ['data','v2-data','v5-data','kill3-data','position7-data','joint-position7-data','trust-position7-data','meta-position-data',...(game==='fc3d'?['v9-data','v9-2-data']:[])])sources[name]=await read(`pages/${prefix}${name}.json`);
+if(replayIssue){
+  const position=await read(`reports/${game}-meta-position-prediction-${replayIssue}.json`);
+  for(const [name,data] of Object.entries(sources)){
+    const row=(data.history??data.rows??[]).find(r=>String(r.issue)===replayIssue);
+    data.recommendation=row?Object.fromEntries(['dan','pool5','pool6','pool7','pool8','kills'].map(k=>[k,row[k]])):null;
+    for(const [size,pool] of Object.entries(data.pools??{})){
+      const r=name==='meta-position-data'?position.recommendations[size]:(pool.history??[]).find(r=>String(r.issue)===replayIssue);
+      pool.recommendation=r?Object.fromEntries(['hundredsPool','tensPool','unitsPool'].map(k=>[k,r[k]])):null;
+    }
+  }
+}
 const descriptors=[];
 function add(id,family,kind,records,current,position=null,baseline=.1){descriptors.push({id,family,kind,records:new Map(records.map(r=>[r.date,r.pool])),current,position,baseline});}
 for(const [name,data] of Object.entries(sources)){
@@ -84,6 +112,7 @@ for(let index=0;index<draws.length;index++){
 const configs=[];
 for(const halfLife of [30,90])for(const prior of [30,100])for(const gain of [.5,1])for(const jointBlend of [.1,.35])configs.push({halfLife,prior,gain,jointBlend});
 let locked=null;if(process.env.KILL3_DYNAMIC_RESEARCH!=='1')try{locked=await read(`pages/${prefix}matrix-kill3-dynamic-data.json`);if(locked.modelVersion!=='MATRIX-KILL3-DYNAMIC-1')locked=null;}catch{}
+if(replayIssue&&(!locked||locked.modelSelectedThrough>=replayHeat.date))throw new Error('Kill3 parameters were not locked before replay date');
 const runs=(locked?[locked.config]:configs).map(config=>{
   const engine=new DynamicKill3(config),history=[];let miss=0;
   for(const frame of frames){
@@ -95,12 +124,24 @@ const runs=(locked?[locked.config]:configs).map(config=>{
   return{config,engine,history,selection:metric(history.filter(r=>r.phase==='selection'))};
 }).sort((a,b)=>b.selection.rate-a.selection.rate||a.selection.maxMiss-b.selection.maxMiss);
 const winner=runs[0],latest=draws.at(-1),targetIssue=String(matrix.matrix22.targetIssue);
-const targetHeat=(heat.preDrawSnapshots??[]).findLast(r=>String(Number(r.issue))===String(Number(targetIssue.slice(-3)))&&r.date>latest.date&&/^20:(2\d|[3-5]\d)$/.test(String(r.capturedAtBeijing??'').slice(11,16)));
+const targetHeat=replayHeat??findTargetHeat(heat,targetIssue,latest.date);
+if(replayIssue){
+  const current=buildChannels(draws.length,replayHeat.date,true,replayHeat);
+  const prediction=winner.engine.predict(current.channels);
+  const output={generatedAt:new Date().toISOString(),game,issue:replayIssue,date:replayHeat.date,
+    basedOnIssue:latest.issue,basedOnDate:latest.date,phase:'historical-reconstruction',
+    modelVersion:locked.modelVersion,config:locked.config,heatRankings:replayHeat.rankings,
+    evidenceClass:'archived heat rankings without contemporaneous 20:20 capture',...prediction};
+  await writeFile(path.join(root,'reports',`${game}-kill3-prediction-${replayIssue}.json`),JSON.stringify(output,null,2)+'\n');
+  console.log(JSON.stringify({game,issue:replayIssue,basedOnIssue:latest.issue,kills:output.kills}));
+  process.exit(0);
+}
 const forward=[...(locked?.forwardHistory??[])];
 if(locked?.recommendation){const old=locked.recommendation,actual=draws.find(r=>String(r.issue)===String(old.targetIssue));if(actual&&!forward.some(r=>String(r.issue)===String(actual.issue)))forward.push({issue:actual.issue,date:actual.date,draw:actual.draw,kills:old.kills,hit:[...actual.draw].every(v=>!old.kills.includes(v)),phase:'forward'});}
 let fm=0;for(const r of forward){fm=r.hit?0:fm+1;r.missStreak=fm;}
 const current=buildChannels(draws.length,targetHeat?.date??latest.date,true,targetHeat);
 const recommendation=locked?.recommendation?.targetIssue===targetIssue?locked.recommendation:targetHeat?{targetIssue,basedOnIssue:latest.issue,heatCapturedAt:targetHeat.capturedAtBeijing,...winner.engine.predict(current.channels)}:null;
 const output={generatedAt:new Date().toISOString(),game,modelVersion:'MATRIX-KILL3-DYNAMIC-1',modelSelectedThrough:locked?.modelSelectedThrough??draws[split-1].date,targetIssue,basedOnIssue:latest.issue,config:winner.config,candidateCount:configs.length,channelCount:descriptors.length,currentChannelStates:current.channels,definition:'3个杀码都未出现在开奖号中才算成功。',theoreticalRate:.343,notice:'分别读取各模型每种玩法的推荐，以及截至上一期的连中连断、近30期表现；学习不同状态下号码出现的频率，缺少证据时降低影响。同模型内多玩法合并控制重复投票。16套平滑参数只在前630期比较，后100期按先推荐后核对再学习的顺序回放。上游历史推荐及热度并非全部具有开奖前存档，所以仍不是完整独立盲测。',recommendation,history:winner.history,forwardHistory:forward,metrics:{selection:winner.selection,holdout:metric(winner.history.filter(r=>r.phase==='sequential-replay')),recentYear:metric(winner.history.slice(-365)),forward:metric(forward)},comparison:runs.map(r=>({config:r.config,selection:r.selection}))};
+try{output.reconstructionHistory=(await read('scripts/data/matrix-kill3-reconstructions.json'))[game]??[];}catch{output.reconstructionHistory=[];}
 for(const base of ['pages','public'])await writeFile(path.join(root,base,`${prefix}matrix-kill3-dynamic-data.json`),JSON.stringify(output)+'\n');
 console.log(JSON.stringify({game,channels:descriptors.length,config:output.config,metrics:output.metrics}));

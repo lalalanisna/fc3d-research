@@ -1,0 +1,30 @@
+{
+  "fc3d": [
+    {
+      "issue": "2026271",
+      "date": "2026-10-12",
+      "draw": "280",
+      "kills": "234",
+      "hit": false,
+      "phase": "historical-reconstruction",
+      "basedOnIssue": "2026270",
+      "predictionSha256": "8629c5534bbb17f650e4dc6c68a73742d00bf8fcc35e23369464137146c57090",
+      "heatEvidence": "archived-ranking-no-20:20-snapshot",
+      "missStreak": 1
+    }
+  ],
+  "pl3": [
+    {
+      "issue": "26271",
+      "date": "2026-10-12",
+      "draw": "622",
+      "kills": "268",
+      "hit": false,
+      "phase": "historical-reconstruction",
+      "basedOnIssue": "26270",
+      "predictionSha256": "8629c5534bbb17f650e4dc6c68a73742d00bf8fcc35e23369464137146c57090",
+      "heatEvidence": "archived-ranking-no-20:20-snapshot",
+      "missStreak": 1
+    }
+  ]
+}

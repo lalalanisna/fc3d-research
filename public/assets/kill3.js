@@ -1,5 +1,5 @@
 const $ = (selector) => document.querySelector(selector);
-const root = "https://raw.githubusercontent.com/asjgnetctk-jpg/fc3d-research/main/pages";
+const root = ".";
 let payload, showAll = false, query = "";
 function badge(hit) { return `<span class="hit-badge${hit ? " is-hit" : ""}">${hit ? "中" : "未中"}</span>`; }
 function metricCard(title, item, note) { return `<article class="position7-metric"><h3>${title}</h3><strong>${item.hits}/${item.count}</strong><span>命中率 ${(item.rate * 100).toFixed(1)}%</span><b>最长连错 ${item.maxMiss}期 · 当前${item.currentMiss}期</b><small>${note}</small></article>`; }

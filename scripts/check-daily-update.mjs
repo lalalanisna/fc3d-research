@@ -1,9 +1,10 @@
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import {validHeatTimestamp} from './target-heat.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export function checkGame({data, heat, meta, kill}, now = new Date()) {
+export function checkGame({data, heat, meta, kill}, now = new Date(), {requireReady = false} = {}) {
   const parts = Object.fromEntries(new Intl.DateTimeFormat('en-CA', {
     timeZone:'Asia/Shanghai', year:'numeric', month:'2-digit', day:'2-digit',
     hour:'2-digit', minute:'2-digit', hourCycle:'h23',
@@ -28,18 +29,24 @@ export function checkGame({data, heat, meta, kill}, now = new Date()) {
   if(locked&&(!matrix.heatSnapshot||!same(Number(matrix.heatSnapshot.issue),Number(String(matrix.targetIssue).slice(-3))))) issues.push('22组缺少本期热度存档');
   // An evening lag is an error, not a fabricated recommendation. Before 20:20
   // and after drawing the next day's still-pending recommendations are normal.
-  if(rec?.basedOnDate<today&&minute>=20*60+50&&minute<=21*60+50) {
+  if(requireReady || (rec?.basedOnDate<today&&minute>=20*60+25&&minute<=21*60+50)) {
     if(!locked||matrix.heatSnapshot?.date!==today) issues.push('今晚22组尚未取得当期热度并锁定');
     if((coverage?.numbers?.length??0)!==22) issues.push('今晚组选尚未锁定');
     for(const size of [5,6,7]) if(meta.pools?.[size]?.recommendation?.heatMode!=='target-locked') issues.push(`今晚融合定位${size}码尚未锁定`);
     if(!kill.recommendation) issues.push('今晚融合杀码尚未锁定');
+    const snapshot=matrix?.heatSnapshot;
+    if(!validHeatTimestamp(snapshot,rec?.targetIssue,rec?.basedOnDate)) issues.push('正式推荐缺少有效的当期开奖前热度时间戳');
+    const stamp=snapshot?.capturedAtBeijing;
+    if(coverage?.heatSnapshot?.capturedAtBeijing!==stamp) issues.push('直选与组选热度批次不同步');
+    for(const size of [5,6,7]) if(meta.pools?.[size]?.recommendation?.heatCapturedAt!==stamp) issues.push(`融合定位${size}码与直选热度批次不同步`);
+    if(kill.recommendation?.heatCapturedAt!==stamp) issues.push('融合杀码与直选热度批次不同步');
   }
   return {ok:issues.length===0,today,expectedDate,basedOnDate:rec?.basedOnDate,targetIssue:rec?.targetIssue,locked,issues};
 }
 
 async function run() {
   const online=process.argv.includes('--online');
-  const base='https://asjgnetctk-jpg.github.io/fc3d-research/';
+  const base=process.env.SITE_BASE_URL ?? 'https://lalalanisna.github.io/fc3d-research/';
   const load=async file=>{
     if(!online)return JSON.parse(await readFile(path.join(root,'pages',file),'utf8'));
     let last;
@@ -53,7 +60,7 @@ async function run() {
   let failed=false;
   for(const [game,prefix] of [['fc3d',''],['pl3','pl3-']])try{
     const [data,heat,meta,kill]=await Promise.all(['data.json','heat-data.json','meta-position-data.json','matrix-kill3-dynamic-data.json'].map(f=>load(prefix+f)));
-    const result=checkGame({data,heat,meta,kill});
+    const result=checkGame({data,heat,meta,kill},new Date(),{requireReady:process.argv.includes('--require-ready')});
     console.log(JSON.stringify({game,online,...result}));
     if(!result.ok){failed=true;for(const issue of result.issues)console.error(`::error title=${game}自动更新检查::${issue}`);}
   }catch(error){failed=true;console.error(`::error title=${game}自动更新检查::${error.message}`);}

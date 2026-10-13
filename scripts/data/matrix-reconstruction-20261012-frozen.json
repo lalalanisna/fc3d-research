@@ -1,0 +1,1536 @@
+{
+  "phase": "historical-reconstruction",
+  "generatedAt": "2026-10-13T08:16:43.351Z",
+  "note": "历史热度补算；无昨天20:20抓取时间戳，不计入真实前瞻。原公式及锁定参数保持不变。",
+  "predictionSha256": "8629c5534bbb17f650e4dc6c68a73742d00bf8fcc35e23369464137146c57090",
+  "frozen": [
+    {
+      "game": "fc3d",
+      "issue": "2026271",
+      "position": {
+        "generatedAt": "2026-10-13T08:15:02.837Z",
+        "game": "fc3d",
+        "issue": "2026271",
+        "date": "2026-10-12",
+        "phase": "historical-reconstruction",
+        "heatIssue": "271",
+        "heatRankings": [
+          [
+            9,
+            6,
+            4,
+            7,
+            2,
+            1,
+            5,
+            3,
+            0,
+            8
+          ],
+          [
+            6,
+            5,
+            0,
+            3,
+            9,
+            1,
+            7,
+            2,
+            4,
+            8
+          ],
+          [
+            9,
+            5,
+            6,
+            3,
+            2,
+            4,
+            7,
+            8,
+            0,
+            1
+          ],
+          [
+            9,
+            6,
+            5,
+            3,
+            0,
+            2,
+            7,
+            4,
+            1,
+            8
+          ]
+        ],
+        "cutoffIssue": "2026270",
+        "cutoffDate": "2026-10-11",
+        "evidenceClass": "archived heat rankings without contemporaneous 20:20 capture",
+        "recommendations": {
+          "5": {
+            "targetIssue": "2026271",
+            "basedOnIssue": "2026270",
+            "basedOnDate": "2026-10-11",
+            "heatMode": "historical-reconstruction",
+            "hundredsPool": "01358",
+            "tensPool": "01269",
+            "unitsPool": "02568"
+          },
+          "6": {
+            "targetIssue": "2026271",
+            "basedOnIssue": "2026270",
+            "basedOnDate": "2026-10-11",
+            "heatMode": "historical-reconstruction",
+            "hundredsPool": "013589",
+            "tensPool": "012689",
+            "unitsPool": "025678"
+          },
+          "7": {
+            "targetIssue": "2026271",
+            "basedOnIssue": "2026270",
+            "basedOnDate": "2026-10-11",
+            "heatMode": "historical-reconstruction",
+            "hundredsPool": "0135789",
+            "tensPool": "0125689",
+            "unitsPool": "1346789"
+          }
+        }
+      },
+      "kill": {
+        "generatedAt": "2026-10-13T08:15:22.960Z",
+        "game": "fc3d",
+        "issue": "2026271",
+        "date": "2026-10-12",
+        "basedOnIssue": "2026270",
+        "basedOnDate": "2026-10-11",
+        "phase": "historical-reconstruction",
+        "modelVersion": "MATRIX-KILL3-DYNAMIC-1",
+        "config": {
+          "halfLife": 90,
+          "prior": 30,
+          "gain": 1,
+          "jointBlend": 0.1
+        },
+        "heatRankings": [
+          [
+            9,
+            6,
+            4,
+            7,
+            2,
+            1,
+            5,
+            3,
+            0,
+            8
+          ],
+          [
+            6,
+            5,
+            0,
+            3,
+            9,
+            1,
+            7,
+            2,
+            4,
+            8
+          ],
+          [
+            9,
+            5,
+            6,
+            3,
+            2,
+            4,
+            7,
+            8,
+            0,
+            1
+          ],
+          [
+            9,
+            6,
+            5,
+            3,
+            0,
+            2,
+            7,
+            4,
+            1,
+            8
+          ]
+        ],
+        "evidenceClass": "archived heat rankings without contemporaneous 20:20 capture",
+        "kills": "234",
+        "probabilities": [
+          [
+            0.17953299473252257,
+            0.1319743463138226,
+            0.014959368332991928,
+            0.10573518320611197,
+            0.016130098584805793,
+            0.04752116193872299,
+            0.2285742549429256,
+            0.08956072876433799,
+            0.04740999251842288,
+            0.13860187066533566
+          ],
+          [
+            0.07670242815466886,
+            0.1402315428836754,
+            0.04165855495298263,
+            0.04375181411409367,
+            0.06937080959318749,
+            0.050742688616502135,
+            0.17001118729855452,
+            0.05922416177241457,
+            0.15002333282041003,
+            0.1982834797935108
+          ],
+          [
+            0.13151353221584605,
+            0.26291097030827804,
+            0.07172440775380741,
+            0.012771728927573795,
+            0.013714548045780662,
+            0.07363459189973015,
+            0.08329015509194601,
+            0.20132401732362712,
+            0.011393541359193975,
+            0.13772250707421668
+          ]
+        ],
+        "channelStates": [
+          {
+            "id": "data:dan",
+            "state": "断1|平",
+            "priorHitRate": 0.26666666666666666,
+            "hitStreak": 0,
+            "missStreak": 1,
+            "maxMiss": 14,
+            "missRatio": 0.07142857142857142,
+            "sampleCount": 1100
+          },
+          {
+            "id": "data:pool5",
+            "state": "中1|平",
+            "priorHitRate": 0.03333333333333333,
+            "hitStreak": 1,
+            "missStreak": 0,
+            "maxMiss": 61,
+            "missRatio": 0,
+            "sampleCount": 1100
+          },
+          {
+            "id": "data:pool6",
+            "state": "断3|平",
+            "priorHitRate": 0.1,
+            "hitStreak": 0,
+            "missStreak": 3,
+            "maxMiss": 36,
+            "missRatio": 0.08333333333333333,
+            "sampleCount": 1100
+          },
+          {
+            "id": "data:pool7",
+            "state": "中1|平",
+            "priorHitRate": 0.2,
+            "hitStreak": 1,
+            "missStreak": 0,
+            "maxMiss": 18,
+            "missRatio": 0,
+            "sampleCount": 1100
+          },
+          {
+            "id": "v2-data:dan",
+            "state": "断1|弱",
+            "priorHitRate": 0.16666666666666666,
+            "hitStreak": 0,
+            "missStreak": 1,
+            "maxMiss": 11,
+            "missRatio": 0.09090909090909091,
+            "sampleCount": 422
+          },
+          {
+            "id": "v2-data:pool5",
+            "state": "断5|平",
+            "priorHitRate": 0.1,
+            "hitStreak": 0,
+            "missStreak": 16,
+            "maxMiss": 33,
+            "missRatio": 0.48484848484848486,
+            "sampleCount": 422
+          },
+          {
+            "id": "v2-data:pool6",
+            "state": "断5|弱",
+            "priorHitRate": 0.06666666666666667,
+            "hitStreak": 0,
+            "missStreak": 20,
+            "maxMiss": 36,
+            "missRatio": 0.5555555555555556,
+            "sampleCount": 422
+          },
+          {
+            "id": "v2-data:pool7",
+            "state": "断3|平",
+            "priorHitRate": 0.23333333333333334,
+            "hitStreak": 0,
+            "missStreak": 3,
+            "maxMiss": 11,
+            "missRatio": 0.2727272727272727,
+            "sampleCount": 422
+          },
+          {
+            "id": "v5-data:dan",
+            "state": "断1|弱",
+            "priorHitRate": 0.2,
+            "hitStreak": 0,
+            "missStreak": 1,
+            "maxMiss": 9,
+            "missRatio": 0.1111111111111111,
+            "sampleCount": 1100
+          },
+          {
+            "id": "v5-data:pool7",
+            "state": "中2|强",
+            "priorHitRate": 0.4,
+            "hitStreak": 2,
+            "missStreak": 0,
+            "maxMiss": 11,
+            "missRatio": 0,
+            "sampleCount": 1100
+          },
+          {
+            "id": "kill3-data:kills",
+            "state": "断5|强",
+            "priorHitRate": 0.43333333333333335,
+            "hitStreak": 0,
+            "missStreak": 5,
+            "maxMiss": 8,
+            "missRatio": 0.625,
+            "sampleCount": 1100
+          },
+          {
+            "id": "position7-data:5:hundredsPool",
+            "state": "中1|强",
+            "priorHitRate": 0.5666666666666667,
+            "hitStreak": 1,
+            "missStreak": 0,
+            "maxMiss": 5,
+            "missRatio": 0,
+            "sampleCount": 374
+          },
+          {
+            "id": "position7-data:6:hundredsPool",
+            "state": "中1|强",
+            "priorHitRate": 0.7333333333333333,
+            "hitStreak": 1,
+            "missStreak": 0,
+            "maxMiss": 2,
+            "missRatio": 0,
+            "sampleCount": 374
+          },
+          {
+            "id": "position7-data:7:hundredsPool",
+            "state": "中3|强",
+            "priorHitRate": 0.8,
+            "hitStreak": 5,
+            "missStreak": 0,
+            "maxMiss": 2,
+            "missRatio": 0,
+            "sampleCount": 374
+          },
+          {
+            "id": "joint-position7-data:5:hundredsPool",
+            "state": "断1|强",
+            "priorHitRate": 0.6666666666666666,
+            "hitStreak": 0,
+            "missStreak": 1,
+            "maxMiss": 4,
+            "missRatio": 0.25,
+            "sampleCount": 374
+          },
+          {
+            "id": "joint-position7-data:6:hundredsPool",
+            "state": "中2|强",
+            "priorHitRate": 0.7,
+            "hitStreak": 2,
+            "missStreak": 0,
+            "maxMiss": 3,
+            "missRatio": 0,
+            "sampleCount": 374
+          },
+          {
+            "id": "joint-position7-data:7:hundredsPool",
+            "state": "中3|强",
+            "priorHitRate": 0.8,
+            "hitStreak": 5,
+            "missStreak": 0,
+            "maxMiss": 2,
+            "missRatio": 0,
+            "sampleCount": 374
+          },
+          {
+            "id": "trust-position7-data:5:hundredsPool",
+            "state": "断1|弱",
+            "priorHitRate": 0.43333333333333335,
+            "hitStreak": 0,
+            "missStreak": 1,
+            "maxMiss": 10,
+            "missRatio": 0.1,
+            "sampleCount": 1100
+          },
+          {
+            "id": "trust-position7-data:6:hundredsPool",
+            "state": "断1|强",
+            "priorHitRate": 0.7333333333333333,
+            "hitStreak": 0,
+            "missStreak": 1,
+            "maxMiss": 7,
+            "missRatio": 0.14285714285714285,
+            "sampleCount": 1100
+          },
+          {
+            "id": "trust-position7-data:7:hundredsPool",
+            "state": "中1|平",
+            "priorHitRate": 0.6666666666666666,
+            "hitStreak": 1,
+            "missStreak": 0,
+            "maxMiss": 5,
+            "missRatio": 0,
+            "sampleCount": 1100
+          },
+          {
+            "id": "meta-position-data:5:hundredsPool",
+            "state": "中3|强",
+            "priorHitRate": 0.875,
+            "hitStreak": 6,
+            "missStreak": 0,
+            "maxMiss": 1,
+            "missRatio": 0,
+            "sampleCount": 8
+          },
+          {
+            "id": "meta-position-data:6:hundredsPool",
+            "state": "中3|强",
+            "priorHitRate": 1,
+            "hitStreak": 8,
+            "missStreak": 0,
+            "maxMiss": 0,
+            "missRatio": 0,
+            "sampleCount": 8
+          },
+          {
+            "id": "meta-position-data:7:hundredsPool",
+            "state": "中3|强",
+            "priorHitRate": 1,
+            "hitStreak": 8,
+            "missStreak": 0,
+            "maxMiss": 0,
+            "missRatio": 0,
+            "sampleCount": 8
+          },
+          {
+            "id": "v9-data:pool5",
+            "state": "断5|平",
+            "priorHitRate": 0.03333333333333333,
+            "hitStreak": 0,
+            "missStreak": 14,
+            "maxMiss": 105,
+            "missRatio": 0.13333333333333333,
+            "sampleCount": 1100
+          },
+          {
+            "id": "v9-data:pool6",
+            "state": "断5|平",
+            "priorHitRate": 0.1,
+            "hitStreak": 0,
+            "missStreak": 14,
+            "maxMiss": 66,
+            "missRatio": 0.21212121212121213,
+            "sampleCount": 1100
+          },
+          {
+            "id": "v9-data:pool7",
+            "state": "断1|强",
+            "priorHitRate": 0.26666666666666666,
+            "hitStreak": 0,
+            "missStreak": 1,
+            "maxMiss": 51,
+            "missRatio": 0.0196078431372549,
+            "sampleCount": 1100
+          },
+          {
+            "id": "v9-data:pool8",
+            "state": "断3|强",
+            "priorHitRate": 0.4,
+            "hitStreak": 0,
+            "missStreak": 3,
+            "maxMiss": 19,
+            "missRatio": 0.15789473684210525,
+            "sampleCount": 1100
+          },
+          {
+            "id": "v9-2-data:pool5",
+            "state": "断1|平",
+            "priorHitRate": 0.06666666666666667,
+            "hitStreak": 0,
+            "missStreak": 1,
+            "maxMiss": 134,
+            "missRatio": 0.007462686567164179,
+            "sampleCount": 384
+          },
+          {
+            "id": "v9-2-data:pool6",
+            "state": "断3|弱",
+            "priorHitRate": 0.06666666666666667,
+            "hitStreak": 0,
+            "missStreak": 3,
+            "maxMiss": 36,
+            "missRatio": 0.08333333333333333,
+            "sampleCount": 384
+          },
+          {
+            "id": "v9-2-data:pool7",
+            "state": "断1|强",
+            "priorHitRate": 0.26666666666666666,
+            "hitStreak": 0,
+            "missStreak": 1,
+            "maxMiss": 15,
+            "missRatio": 0.06666666666666667,
+            "sampleCount": 384
+          },
+          {
+            "id": "v9-2-data:pool8",
+            "state": "中3|平",
+            "priorHitRate": 0.3,
+            "hitStreak": 3,
+            "missStreak": 0,
+            "maxMiss": 9,
+            "missRatio": 0,
+            "sampleCount": 384
+          },
+          {
+            "id": "heat:0",
+            "state": "排名"
+          },
+          {
+            "id": "matrix22:0",
+            "state": "投票"
+          },
+          {
+            "id": "matrixCoverage",
+            "state": "组选投票"
+          },
+          {
+            "id": "冷热:0",
+            "state": "排序"
+          },
+          {
+            "id": "遗漏:0",
+            "state": "排序"
+          },
+          {
+            "id": "position7-data:5:tensPool",
+            "state": "中2|平",
+            "priorHitRate": 0.5333333333333333,
+            "hitStreak": 2,
+            "missStreak": 0,
+            "maxMiss": 4,
+            "missRatio": 0,
+            "sampleCount": 374
+          },
+          {
+            "id": "position7-data:6:tensPool",
+            "state": "中2|弱",
+            "priorHitRate": 0.5333333333333333,
+            "hitStreak": 2,
+            "missStreak": 0,
+            "maxMiss": 3,
+            "missRatio": 0,
+            "sampleCount": 374
+          },
+          {
+            "id": "position7-data:7:tensPool",
+            "state": "中3|强",
+            "priorHitRate": 0.7666666666666667,
+            "hitStreak": 9,
+            "missStreak": 0,
+            "maxMiss": 3,
+            "missRatio": 0,
+            "sampleCount": 374
+          },
+          {
+            "id": "joint-position7-data:5:tensPool",
+            "state": "断1|强",
+            "priorHitRate": 0.5666666666666667,
+            "hitStreak": 0,
+            "missStreak": 1,
+            "maxMiss": 5,
+            "missRatio": 0.2,
+            "sampleCount": 374
+          },
+          {
+            "id": "joint-position7-data:6:tensPool",
+            "state": "中3|平",
+            "priorHitRate": 0.6333333333333333,
+            "hitStreak": 3,
+            "missStreak": 0,
+            "maxMiss": 4,
+            "missRatio": 0,
+            "sampleCount": 374
+          },
+          {
+            "id": "joint-position7-data:7:tensPool",
+            "state": "中3|强",
+            "priorHitRate": 0.7666666666666667,
+            "hitStreak": 9,
+            "missStreak": 0,
+            "maxMiss": 3,
+            "missRatio": 0,
+            "sampleCount": 374
+          },
+          {
+            "id": "trust-position7-data:5:tensPool",
+            "state": "断1|平",
+            "priorHitRate": 0.5333333333333333,
+            "hitStreak": 0,
+            "missStreak": 1,
+            "maxMiss": 9,
+            "missRatio": 0.1111111111111111,
+            "sampleCount": 1100
+          },
+          {
+            "id": "trust-position7-data:6:tensPool",
+            "state": "中2|强",
+            "priorHitRate": 0.7,
+            "hitStreak": 2,
+            "missStreak": 0,
+            "maxMiss": 8,
+            "missRatio": 0,
+            "sampleCount": 1100
+          },
+          {
+            "id": "trust-position7-data:7:tensPool",
+            "state": "中2|强",
+            "priorHitRate": 0.7666666666666667,
+            "hitStreak": 2,
+            "missStreak": 0,
+            "maxMiss": 7,
+            "missRatio": 0,
+            "sampleCount": 1100
+          },
+          {
+            "id": "meta-position-data:5:tensPool",
+            "state": "中1|平",
+            "priorHitRate": 0.5,
+            "hitStreak": 1,
+            "missStreak": 0,
+            "maxMiss": 3,
+            "missRatio": 0,
+            "sampleCount": 8
+          },
+          {
+            "id": "meta-position-data:6:tensPool",
+            "state": "中2|平",
+            "priorHitRate": 0.625,
+            "hitStreak": 2,
+            "missStreak": 0,
+            "maxMiss": 2,
+            "missRatio": 0,
+            "sampleCount": 8
+          },
+          {
+            "id": "meta-position-data:7:tensPool",
+            "state": "中3|强",
+            "priorHitRate": 0.875,
+            "hitStreak": 7,
+            "missStreak": 0,
+            "maxMiss": 1,
+            "missRatio": 0,
+            "sampleCount": 8
+          },
+          {
+            "id": "heat:1",
+            "state": "排名"
+          },
+          {
+            "id": "matrix22:1",
+            "state": "投票"
+          },
+          {
+            "id": "冷热:1",
+            "state": "排序"
+          },
+          {
+            "id": "遗漏:1",
+            "state": "排序"
+          },
+          {
+            "id": "position7-data:5:unitsPool",
+            "state": "中3|强",
+            "priorHitRate": 0.7,
+            "hitStreak": 3,
+            "missStreak": 0,
+            "maxMiss": 6,
+            "missRatio": 0,
+            "sampleCount": 374
+          },
+          {
+            "id": "position7-data:6:unitsPool",
+            "state": "中3|平",
+            "priorHitRate": 0.6333333333333333,
+            "hitStreak": 3,
+            "missStreak": 0,
+            "maxMiss": 3,
+            "missRatio": 0,
+            "sampleCount": 374
+          },
+          {
+            "id": "position7-data:7:unitsPool",
+            "state": "中3|强",
+            "priorHitRate": 0.8,
+            "hitStreak": 3,
+            "missStreak": 0,
+            "maxMiss": 2,
+            "missRatio": 0,
+            "sampleCount": 374
+          },
+          {
+            "id": "joint-position7-data:5:unitsPool",
+            "state": "中2|强",
+            "priorHitRate": 0.7333333333333333,
+            "hitStreak": 2,
+            "missStreak": 0,
+            "maxMiss": 4,
+            "missRatio": 0,
+            "sampleCount": 374
+          },
+          {
+            "id": "joint-position7-data:6:unitsPool",
+            "state": "中3|平",
+            "priorHitRate": 0.6,
+            "hitStreak": 3,
+            "missStreak": 0,
+            "maxMiss": 3,
+            "missRatio": 0,
+            "sampleCount": 374
+          },
+          {
+            "id": "joint-position7-data:7:unitsPool",
+            "state": "中3|强",
+            "priorHitRate": 0.8,
+            "hitStreak": 3,
+            "missStreak": 0,
+            "maxMiss": 2,
+            "missRatio": 0,
+            "sampleCount": 374
+          },
+          {
+            "id": "trust-position7-data:5:unitsPool",
+            "state": "断5|平",
+            "priorHitRate": 0.5,
+            "hitStreak": 0,
+            "missStreak": 6,
+            "maxMiss": 9,
+            "missRatio": 0.6666666666666666,
+            "sampleCount": 1100
+          },
+          {
+            "id": "trust-position7-data:6:unitsPool",
+            "state": "中2|强",
+            "priorHitRate": 0.7,
+            "hitStreak": 2,
+            "missStreak": 0,
+            "maxMiss": 6,
+            "missRatio": 0,
+            "sampleCount": 1100
+          },
+          {
+            "id": "trust-position7-data:7:unitsPool",
+            "state": "中1|弱",
+            "priorHitRate": 0.6333333333333333,
+            "hitStreak": 1,
+            "missStreak": 0,
+            "maxMiss": 5,
+            "missRatio": 0,
+            "sampleCount": 1100
+          },
+          {
+            "id": "meta-position-data:5:unitsPool",
+            "state": "断3|弱",
+            "priorHitRate": 0.125,
+            "hitStreak": 0,
+            "missStreak": 3,
+            "maxMiss": 4,
+            "missRatio": 0.75,
+            "sampleCount": 8
+          },
+          {
+            "id": "meta-position-data:6:unitsPool",
+            "state": "断2|弱",
+            "priorHitRate": 0.5,
+            "hitStreak": 0,
+            "missStreak": 2,
+            "maxMiss": 2,
+            "missRatio": 1,
+            "sampleCount": 8
+          },
+          {
+            "id": "meta-position-data:7:unitsPool",
+            "state": "中3|强",
+            "priorHitRate": 1,
+            "hitStreak": 8,
+            "missStreak": 0,
+            "maxMiss": 0,
+            "missRatio": 0,
+            "sampleCount": 8
+          },
+          {
+            "id": "heat:2",
+            "state": "排名"
+          },
+          {
+            "id": "matrix22:2",
+            "state": "投票"
+          },
+          {
+            "id": "冷热:2",
+            "state": "排序"
+          },
+          {
+            "id": "遗漏:2",
+            "state": "排序"
+          }
+        ]
+      }
+    },
+    {
+      "game": "pl3",
+      "issue": "26271",
+      "position": {
+        "generatedAt": "2026-10-13T08:15:24.608Z",
+        "game": "pl3",
+        "issue": "26271",
+        "date": "2026-10-12",
+        "phase": "historical-reconstruction",
+        "heatIssue": "271",
+        "heatRankings": [
+          [
+            2,
+            4,
+            9,
+            1,
+            5,
+            0,
+            8,
+            3,
+            6,
+            7
+          ],
+          [
+            6,
+            5,
+            8,
+            9,
+            4,
+            7,
+            1,
+            2,
+            3,
+            0
+          ],
+          [
+            9,
+            8,
+            6,
+            7,
+            5,
+            4,
+            1,
+            2,
+            3,
+            0
+          ],
+          [
+            9,
+            8,
+            6,
+            5,
+            4,
+            2,
+            7,
+            1,
+            3,
+            0
+          ]
+        ],
+        "cutoffIssue": "26270",
+        "cutoffDate": "2026-10-11",
+        "evidenceClass": "archived heat rankings without contemporaneous 20:20 capture",
+        "recommendations": {
+          "5": {
+            "targetIssue": "26271",
+            "basedOnIssue": "26270",
+            "basedOnDate": "2026-10-11",
+            "heatMode": "historical-reconstruction",
+            "hundredsPool": "34567",
+            "tensPool": "12478",
+            "unitsPool": "34578"
+          },
+          "6": {
+            "targetIssue": "26271",
+            "basedOnIssue": "26270",
+            "basedOnDate": "2026-10-11",
+            "heatMode": "historical-reconstruction",
+            "hundredsPool": "012579",
+            "tensPool": "124789",
+            "unitsPool": "345678"
+          },
+          "7": {
+            "targetIssue": "26271",
+            "basedOnIssue": "26270",
+            "basedOnDate": "2026-10-11",
+            "heatMode": "historical-reconstruction",
+            "hundredsPool": "0125789",
+            "tensPool": "1245789",
+            "unitsPool": "0234567"
+          }
+        }
+      },
+      "kill": {
+        "generatedAt": "2026-10-13T08:15:25.327Z",
+        "game": "pl3",
+        "issue": "26271",
+        "date": "2026-10-12",
+        "basedOnIssue": "26270",
+        "basedOnDate": "2026-10-11",
+        "phase": "historical-reconstruction",
+        "modelVersion": "MATRIX-KILL3-DYNAMIC-1",
+        "config": {
+          "halfLife": 30,
+          "prior": 30,
+          "gain": 1,
+          "jointBlend": 0.1
+        },
+        "heatRankings": [
+          [
+            2,
+            4,
+            9,
+            1,
+            5,
+            0,
+            8,
+            3,
+            6,
+            7
+          ],
+          [
+            6,
+            5,
+            8,
+            9,
+            4,
+            7,
+            1,
+            2,
+            3,
+            0
+          ],
+          [
+            9,
+            8,
+            6,
+            7,
+            5,
+            4,
+            1,
+            2,
+            3,
+            0
+          ],
+          [
+            9,
+            8,
+            6,
+            5,
+            4,
+            2,
+            7,
+            1,
+            3,
+            0
+          ]
+        ],
+        "evidenceClass": "archived heat rankings without contemporaneous 20:20 capture",
+        "kills": "268",
+        "probabilities": [
+          [
+            0.08780751590450821,
+            0.13070646760760896,
+            0.07921530034520378,
+            0.05052356842576314,
+            0.14666950665579037,
+            0.1311878694578092,
+            0.050532623937416594,
+            0.0732190546386304,
+            0.10408797222262628,
+            0.14605012080464294
+          ],
+          [
+            0.0546377618970751,
+            0.06694411131489278,
+            0.04966335703233709,
+            0.11073619681092504,
+            0.17170793760364933,
+            0.16491112491997797,
+            0.0745642575136248,
+            0.1299456131094225,
+            0.07008505439155284,
+            0.10680458540654264
+          ],
+          [
+            0.10391165318527584,
+            0.08009032948519157,
+            0.05248076754779021,
+            0.09459373003275275,
+            0.14764202873443932,
+            0.1439456505264408,
+            0.08591998088275106,
+            0.12433205108007324,
+            0.04133908643735627,
+            0.12574472208792878
+          ]
+        ],
+        "channelStates": [
+          {
+            "id": "data:dan",
+            "state": "断1|平",
+            "priorHitRate": 0.26666666666666666,
+            "hitStreak": 0,
+            "missStreak": 1,
+            "maxMiss": 14,
+            "missRatio": 0.07142857142857142,
+            "sampleCount": 1100
+          },
+          {
+            "id": "data:pool5",
+            "state": "断5|平",
+            "priorHitRate": 0.1,
+            "hitStreak": 0,
+            "missStreak": 18,
+            "maxMiss": 45,
+            "missRatio": 0.4,
+            "sampleCount": 1100
+          },
+          {
+            "id": "data:pool6",
+            "state": "断1|平",
+            "priorHitRate": 0.13333333333333333,
+            "hitStreak": 0,
+            "missStreak": 1,
+            "maxMiss": 26,
+            "missRatio": 0.038461538461538464,
+            "sampleCount": 1100
+          },
+          {
+            "id": "data:pool7",
+            "state": "断1|平",
+            "priorHitRate": 0.2,
+            "hitStreak": 0,
+            "missStreak": 1,
+            "maxMiss": 18,
+            "missRatio": 0.05555555555555555,
+            "sampleCount": 1100
+          },
+          {
+            "id": "v2-data:dan",
+            "state": "断4|平",
+            "priorHitRate": 0.26666666666666666,
+            "hitStreak": 0,
+            "missStreak": 4,
+            "maxMiss": 8,
+            "missRatio": 0.5,
+            "sampleCount": 421
+          },
+          {
+            "id": "v2-data:pool5",
+            "state": "断5|平",
+            "priorHitRate": 0.1,
+            "hitStreak": 0,
+            "missStreak": 9,
+            "maxMiss": 15,
+            "missRatio": 0.6,
+            "sampleCount": 421
+          },
+          {
+            "id": "v2-data:pool6",
+            "state": "断5|弱",
+            "priorHitRate": 0.03333333333333333,
+            "hitStreak": 0,
+            "missStreak": 23,
+            "maxMiss": 37,
+            "missRatio": 0.6216216216216216,
+            "sampleCount": 421
+          },
+          {
+            "id": "v2-data:pool7",
+            "state": "断3|平",
+            "priorHitRate": 0.23333333333333334,
+            "hitStreak": 0,
+            "missStreak": 3,
+            "maxMiss": 8,
+            "missRatio": 0.375,
+            "sampleCount": 421
+          },
+          {
+            "id": "v5-data:dan",
+            "state": "断2|平",
+            "priorHitRate": 0.3,
+            "hitStreak": 0,
+            "missStreak": 2,
+            "maxMiss": 10,
+            "missRatio": 0.2,
+            "sampleCount": 1100
+          },
+          {
+            "id": "v5-data:pool7",
+            "state": "断1|强",
+            "priorHitRate": 0.3,
+            "hitStreak": 0,
+            "missStreak": 1,
+            "maxMiss": 11,
+            "missRatio": 0.09090909090909091,
+            "sampleCount": 1100
+          },
+          {
+            "id": "kill3-data:kills",
+            "state": "断4|平",
+            "priorHitRate": 0.3333333333333333,
+            "hitStreak": 0,
+            "missStreak": 4,
+            "maxMiss": 17,
+            "missRatio": 0.23529411764705882,
+            "sampleCount": 1100
+          },
+          {
+            "id": "position7-data:5:hundredsPool",
+            "state": "中3|强",
+            "priorHitRate": 0.6333333333333333,
+            "hitStreak": 3,
+            "missStreak": 0,
+            "maxMiss": 4,
+            "missRatio": 0,
+            "sampleCount": 374
+          },
+          {
+            "id": "position7-data:6:hundredsPool",
+            "state": "中3|平",
+            "priorHitRate": 0.6333333333333333,
+            "hitStreak": 3,
+            "missStreak": 0,
+            "maxMiss": 4,
+            "missRatio": 0,
+            "sampleCount": 374
+          },
+          {
+            "id": "position7-data:7:hundredsPool",
+            "state": "中3|平",
+            "priorHitRate": 0.7,
+            "hitStreak": 4,
+            "missStreak": 0,
+            "maxMiss": 4,
+            "missRatio": 0,
+            "sampleCount": 374
+          },
+          {
+            "id": "joint-position7-data:5:hundredsPool",
+            "state": "中3|平",
+            "priorHitRate": 0.5,
+            "hitStreak": 3,
+            "missStreak": 0,
+            "maxMiss": 6,
+            "missRatio": 0,
+            "sampleCount": 374
+          },
+          {
+            "id": "joint-position7-data:6:hundredsPool",
+            "state": "中3|强",
+            "priorHitRate": 0.6666666666666666,
+            "hitStreak": 3,
+            "missStreak": 0,
+            "maxMiss": 6,
+            "missRatio": 0,
+            "sampleCount": 374
+          },
+          {
+            "id": "joint-position7-data:7:hundredsPool",
+            "state": "中3|平",
+            "priorHitRate": 0.7,
+            "hitStreak": 4,
+            "missStreak": 0,
+            "maxMiss": 4,
+            "missRatio": 0,
+            "sampleCount": 374
+          },
+          {
+            "id": "trust-position7-data:5:hundredsPool",
+            "state": "断3|平",
+            "priorHitRate": 0.5,
+            "hitStreak": 0,
+            "missStreak": 3,
+            "maxMiss": 11,
+            "missRatio": 0.2727272727272727,
+            "sampleCount": 1100
+          },
+          {
+            "id": "trust-position7-data:6:hundredsPool",
+            "state": "中2|平",
+            "priorHitRate": 0.6333333333333333,
+            "hitStreak": 2,
+            "missStreak": 0,
+            "maxMiss": 8,
+            "missRatio": 0,
+            "sampleCount": 1100
+          },
+          {
+            "id": "trust-position7-data:7:hundredsPool",
+            "state": "中3|平",
+            "priorHitRate": 0.7,
+            "hitStreak": 3,
+            "missStreak": 0,
+            "maxMiss": 5,
+            "missRatio": 0,
+            "sampleCount": 1100
+          },
+          {
+            "id": "meta-position-data:5:hundredsPool",
+            "state": "中1|弱",
+            "priorHitRate": 0.25,
+            "hitStreak": 1,
+            "missStreak": 0,
+            "maxMiss": 4,
+            "missRatio": 0,
+            "sampleCount": 8
+          },
+          {
+            "id": "meta-position-data:6:hundredsPool",
+            "state": "断1|强",
+            "priorHitRate": 0.875,
+            "hitStreak": 0,
+            "missStreak": 1,
+            "maxMiss": 1,
+            "missRatio": 1,
+            "sampleCount": 8
+          },
+          {
+            "id": "meta-position-data:7:hundredsPool",
+            "state": "断1|强",
+            "priorHitRate": 0.875,
+            "hitStreak": 0,
+            "missStreak": 1,
+            "maxMiss": 1,
+            "missRatio": 1,
+            "sampleCount": 8
+          },
+          {
+            "id": "heat:0",
+            "state": "排名"
+          },
+          {
+            "id": "matrix22:0",
+            "state": "投票"
+          },
+          {
+            "id": "matrixCoverage",
+            "state": "组选投票"
+          },
+          {
+            "id": "冷热:0",
+            "state": "排序"
+          },
+          {
+            "id": "遗漏:0",
+            "state": "排序"
+          },
+          {
+            "id": "position7-data:5:tensPool",
+            "state": "断2|强",
+            "priorHitRate": 0.5666666666666667,
+            "hitStreak": 0,
+            "missStreak": 2,
+            "maxMiss": 3,
+            "missRatio": 0.6666666666666666,
+            "sampleCount": 374
+          },
+          {
+            "id": "position7-data:6:tensPool",
+            "state": "中1|强",
+            "priorHitRate": 0.6666666666666666,
+            "hitStreak": 1,
+            "missStreak": 0,
+            "maxMiss": 3,
+            "missRatio": 0,
+            "sampleCount": 374
+          },
+          {
+            "id": "position7-data:7:tensPool",
+            "state": "中3|强",
+            "priorHitRate": 0.7666666666666667,
+            "hitStreak": 7,
+            "missStreak": 0,
+            "maxMiss": 3,
+            "missRatio": 0,
+            "sampleCount": 374
+          },
+          {
+            "id": "joint-position7-data:5:tensPool",
+            "state": "断2|强",
+            "priorHitRate": 0.5666666666666667,
+            "hitStreak": 0,
+            "missStreak": 2,
+            "maxMiss": 3,
+            "missRatio": 0.6666666666666666,
+            "sampleCount": 374
+          },
+          {
+            "id": "joint-position7-data:6:tensPool",
+            "state": "中1|平",
+            "priorHitRate": 0.6,
+            "hitStreak": 1,
+            "missStreak": 0,
+            "maxMiss": 4,
+            "missRatio": 0,
+            "sampleCount": 374
+          },
+          {
+            "id": "joint-position7-data:7:tensPool",
+            "state": "中3|强",
+            "priorHitRate": 0.7666666666666667,
+            "hitStreak": 6,
+            "missStreak": 0,
+            "maxMiss": 2,
+            "missRatio": 0,
+            "sampleCount": 374
+          },
+          {
+            "id": "trust-position7-data:5:tensPool",
+            "state": "断1|弱",
+            "priorHitRate": 0.36666666666666664,
+            "hitStreak": 0,
+            "missStreak": 1,
+            "maxMiss": 8,
+            "missRatio": 0.125,
+            "sampleCount": 1100
+          },
+          {
+            "id": "trust-position7-data:6:tensPool",
+            "state": "中1|强",
+            "priorHitRate": 0.7,
+            "hitStreak": 1,
+            "missStreak": 0,
+            "maxMiss": 8,
+            "missRatio": 0,
+            "sampleCount": 1100
+          },
+          {
+            "id": "trust-position7-data:7:tensPool",
+            "state": "断1|平",
+            "priorHitRate": 0.7333333333333333,
+            "hitStreak": 0,
+            "missStreak": 1,
+            "maxMiss": 5,
+            "missRatio": 0.2,
+            "sampleCount": 1100
+          },
+          {
+            "id": "meta-position-data:5:tensPool",
+            "state": "中1|强",
+            "priorHitRate": 0.625,
+            "hitStreak": 1,
+            "missStreak": 0,
+            "maxMiss": 1,
+            "missRatio": 0,
+            "sampleCount": 8
+          },
+          {
+            "id": "meta-position-data:6:tensPool",
+            "state": "中1|平",
+            "priorHitRate": 0.625,
+            "hitStreak": 1,
+            "missStreak": 0,
+            "maxMiss": 2,
+            "missRatio": 0,
+            "sampleCount": 8
+          },
+          {
+            "id": "meta-position-data:7:tensPool",
+            "state": "中1|强",
+            "priorHitRate": 0.875,
+            "hitStreak": 1,
+            "missStreak": 0,
+            "maxMiss": 1,
+            "missRatio": 0,
+            "sampleCount": 8
+          },
+          {
+            "id": "heat:1",
+            "state": "排名"
+          },
+          {
+            "id": "matrix22:1",
+            "state": "投票"
+          },
+          {
+            "id": "冷热:1",
+            "state": "排序"
+          },
+          {
+            "id": "遗漏:1",
+            "state": "排序"
+          },
+          {
+            "id": "position7-data:5:unitsPool",
+            "state": "断2|平",
+            "priorHitRate": 0.5,
+            "hitStreak": 0,
+            "missStreak": 2,
+            "maxMiss": 4,
+            "missRatio": 0.5,
+            "sampleCount": 374
+          },
+          {
+            "id": "position7-data:6:unitsPool",
+            "state": "断1|弱",
+            "priorHitRate": 0.5333333333333333,
+            "hitStreak": 0,
+            "missStreak": 1,
+            "maxMiss": 4,
+            "missRatio": 0.25,
+            "sampleCount": 374
+          },
+          {
+            "id": "position7-data:7:unitsPool",
+            "state": "中2|平",
+            "priorHitRate": 0.7333333333333333,
+            "hitStreak": 2,
+            "missStreak": 0,
+            "maxMiss": 2,
+            "missRatio": 0,
+            "sampleCount": 374
+          },
+          {
+            "id": "joint-position7-data:5:unitsPool",
+            "state": "断2|平",
+            "priorHitRate": 0.5333333333333333,
+            "hitStreak": 0,
+            "missStreak": 2,
+            "maxMiss": 4,
+            "missRatio": 0.5,
+            "sampleCount": 374
+          },
+          {
+            "id": "joint-position7-data:6:unitsPool",
+            "state": "断1|弱",
+            "priorHitRate": 0.5333333333333333,
+            "hitStreak": 0,
+            "missStreak": 1,
+            "maxMiss": 4,
+            "missRatio": 0.25,
+            "sampleCount": 374
+          },
+          {
+            "id": "joint-position7-data:7:unitsPool",
+            "state": "中1|强",
+            "priorHitRate": 0.8333333333333334,
+            "hitStreak": 1,
+            "missStreak": 0,
+            "maxMiss": 1,
+            "missRatio": 0,
+            "sampleCount": 374
+          },
+          {
+            "id": "trust-position7-data:5:unitsPool",
+            "state": "断1|强",
+            "priorHitRate": 0.5666666666666667,
+            "hitStreak": 0,
+            "missStreak": 1,
+            "maxMiss": 8,
+            "missRatio": 0.125,
+            "sampleCount": 1100
+          },
+          {
+            "id": "trust-position7-data:6:unitsPool",
+            "state": "中3|强",
+            "priorHitRate": 0.7333333333333333,
+            "hitStreak": 8,
+            "missStreak": 0,
+            "maxMiss": 7,
+            "missRatio": 0,
+            "sampleCount": 1100
+          },
+          {
+            "id": "trust-position7-data:7:unitsPool",
+            "state": "中3|强",
+            "priorHitRate": 0.8666666666666667,
+            "hitStreak": 10,
+            "missStreak": 0,
+            "maxMiss": 7,
+            "missRatio": 0,
+            "sampleCount": 1100
+          },
+          {
+            "id": "meta-position-data:5:unitsPool",
+            "state": "中3|强",
+            "priorHitRate": 0.875,
+            "hitStreak": 5,
+            "missStreak": 0,
+            "maxMiss": 1,
+            "missRatio": 0,
+            "sampleCount": 8
+          },
+          {
+            "id": "meta-position-data:6:unitsPool",
+            "state": "中3|强",
+            "priorHitRate": 0.875,
+            "hitStreak": 5,
+            "missStreak": 0,
+            "maxMiss": 1,
+            "missRatio": 0,
+            "sampleCount": 8
+          },
+          {
+            "id": "meta-position-data:7:unitsPool",
+            "state": "中3|强",
+            "priorHitRate": 1,
+            "hitStreak": 8,
+            "missStreak": 0,
+            "maxMiss": 0,
+            "missRatio": 0,
+            "sampleCount": 8
+          },
+          {
+            "id": "heat:2",
+            "state": "排名"
+          },
+          {
+            "id": "matrix22:2",
+            "state": "投票"
+          },
+          {
+            "id": "冷热:2",
+            "state": "排序"
+          },
+          {
+            "id": "遗漏:2",
+            "state": "排序"
+          }
+        ]
+      }
+    }
+  ]
+}
