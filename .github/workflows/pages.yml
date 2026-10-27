@@ -4,8 +4,9 @@ on:
   push:
     branches: [main]
   schedule:
-    # Beijing 19:47 / 20:07: pre-warm, then wait for actual 20:20 heat.
-    - cron: "47 11 * * *"
+    # Beijing 19:17 / 19:32 / 19:47 / 20:07: pre-warm before actual 20:20 heat.
+    # Multiple starts reduce schedule-delay risk; GitHub cron is not an SLA.
+    - cron: "17,32,47 11 * * *"
     - cron: "7,20,30,40,50 12 * * *"
     # After capture: draw results and next-day base preparation.
     - cron: "7,27,47 14 * * *"
@@ -41,7 +42,7 @@ jobs:
       - name: 两彩同步更新（晚间只抓热度和生成矩阵）
         run: node scripts/update-daily.mjs --mode "${{ inputs.mode || 'auto' }}"
       - name: 核对两彩推荐、判中、遗漏与热度存档
-        run: node --test tests/daily-update.test.mjs tests/target-heat.test.mjs tests/matrix-reconstruction.test.mjs tests/matrix-kill3-dynamic.test.mjs tests/published-data-integrity.test.mjs tests/combination-omissions.test.mjs tests/pl3-data.test.mjs tests/position7-data.test.mjs tests/kill3-data.test.mjs tests/v9-low-hit.test.mjs tests/v9-2-low-hit.test.mjs tests/matrix22-data.test.mjs
+        run: node --test tests/daily-update.test.mjs tests/matrix-history-audit.test.mjs tests/target-heat.test.mjs tests/matrix-reconstruction.test.mjs tests/matrix-kill3-dynamic.test.mjs tests/published-data-integrity.test.mjs tests/combination-omissions.test.mjs tests/pl3-data.test.mjs tests/position7-data.test.mjs tests/kill3-data.test.mjs tests/v9-low-hit.test.mjs tests/v9-2-low-hit.test.mjs tests/matrix22-data.test.mjs
       - name: 保存验证后的最新开奖和页面数据
         run: |
           if ! git diff --quiet -- scripts/data scripts/results pages public; then

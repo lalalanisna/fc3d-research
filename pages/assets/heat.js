@@ -36,7 +36,8 @@ function percentage(value) {
 function privatePositionHistoryRow(row) {
   const lines = Object.entries(positionNames).map(([key, name], index) => {
     const hit = row[`${key}Hit`];
-    return `<div class="position7-line"><span>${name}</span><strong>${row[`${key}Pool`]}</strong><span class="hit-badge${hit ? " is-hit" : ""}">${hit ? "中" : "未中"}</span><small>开奖号${row.draw[index]} · 断${row[`${key}MissStreak`]}</small></div>`;
+    const streak = row.phase === 'historical-reconstruction' ? '补算不计前瞻连断' : `已存样本断${row[`${key}MissStreak`] ?? '—'}`;
+    return `<div class="position7-line"><span>${name}</span><strong>${row[`${key}Pool`]}</strong><span class="hit-badge${hit ? " is-hit" : ""}">${hit ? "中" : "未中"}</span><small>开奖号${row.draw[index]} · ${streak}</small></div>`;
   }).join("");
   const phase = row.phase === "prospective-locked" ? "前瞻" : row.phase === "locked-forward" ? "实战" : row.phase === "locked-research" ? "锁定研究" : row.phase === "historical-reconstruction" ? "历史热度补算" : "训练";
   return `<article class="position7-row"><div class="history-date"><strong>${row.issue}</strong><span>${row.date.slice(5)}</span><em>${phase}</em></div><div class="position7-row-main"><div class="position7-draw">开奖 <strong>${row.draw}</strong><span class="hit-badge${row.allHit ? " is-hit" : ""}">${row.allHit ? "三位全中" : "未全中"}</span></div>${lines}</div></article>`;
@@ -90,17 +91,18 @@ function renderPrivatePosition(size) {
     ["理论基线 / 五年差值", `${percentage(result.developmentEvidence.theoreticalRate)} / ${result.developmentEvidence.excessRate >= 0 ? "+" : ""}${percentage(result.developmentEvidence.excessRate)}`],
     ["错位率", percentage(joint.mismatchRate)],
     ["同步效率", joint.syncEfficiency.toFixed(3)],
-    ["最大未全中遗漏", `${joint.maxAllMiss}期`],
+    ["已存样本最大未全中", `${joint.maxAllMiss}期`],
     ["百/十/个位", positionRate],
     ["联合评分", joint.score.toFixed(4)],
-    ["盲测最长/当前断", `${forward.maxMiss}期 / ${forward.currentMiss}期`],
+    ["前瞻样本最长/末尾断", `${forward.maxMiss}期 / ${forward.currentMiss}期`],
   ].map(([label, value]) => `<article><span>${label}</span><strong>${value}</strong></article>`).join("");
   const rows = [30, 100, 300, 500].map((window) => {
     const item = result.metrics.windows[window];
     return `<tr><th>近${window}期</th><td>${item.count}</td><td>${percentage(item.allThreeRate)}</td><td>${percentage(item.mismatchRate)}</td><td>${item.syncEfficiency.toFixed(3)}</td><td>${item.maxAllMiss}期</td></tr>`;
   }).join("");
   document.querySelector("#private-position-windows").innerHTML = `<table><thead><tr><th>窗口</th><th>样本</th><th>全中率</th><th>错位率</th><th>同步效率</th><th>最大遗漏</th></tr></thead><tbody>${rows}</tbody></table>`;
-  document.querySelector("#private-position-notice").textContent = `“历史研究参考”只用于选模，不计入真实前瞻；真实前瞻从本版本开奖前锁定后逐期累计。${privatePositionPayload.notice}`;
+  const repairedDates = (result.reconstructionHistory ?? []).map(r=>r.date).join('、');
+  document.querySelector("#private-position-notice").textContent = `“历史研究参考”只用于选模，不计入真实前瞻；真实前瞻从本版本开奖前锁定后逐期累计。${repairedDates ? `缺期${repairedDates}已单列历史热度补算，不计前瞻；跨缺期的样本连断不代表连续开奖遗漏。` : ''}前瞻统计截至${result.history?.at(-1)?.date ?? '暂无开奖记录'}。${privatePositionPayload.notice}`;
   renderPrivatePositionHistory();
 }
 
@@ -129,18 +131,19 @@ function renderMatrixKill3(data) {
     ['100期最长 / 当前断', `${m.holdout.maxMiss}期 / ${m.holdout.currentMiss}期`],
     ['一年最长连断', `${m.recentYear.maxMiss}期`],
     ['真实前瞻成功率', m.forward.count ? `${m.forward.hits}/${m.forward.count} · ${percentage(m.forward.rate)}` : '等待首期开奖'],
-    ['真实前瞻最长 / 当前断', `${m.forward.maxMiss}期 / ${m.forward.currentMiss}期`],
+    ['前瞻样本最长 / 末尾断', `${m.forward.maxMiss}期 / ${m.forward.currentMiss}期`],
     ['随机理论基线', percentage(data.theoreticalRate)],
     ['独立玩法 / 平滑参数', `${data.channelCount}种 / ${data.candidateCount}套`],
   ].map(([label,value]) => `<article><span>${label}</span><strong>${value}</strong></article>`).join('');
-  document.querySelector('#matrix-kill3-notice').textContent = data.notice;
+  const repairedDates = (data.reconstructionHistory ?? []).map(r=>r.date).join('、');
+  document.querySelector('#matrix-kill3-notice').textContent = `${repairedDates ? `缺期${repairedDates}已单列历史热度补算，不计前瞻；跨缺期的样本连断不代表连续开奖遗漏。` : ''}前瞻统计截至${data.forwardHistory?.at(-1)?.date ?? '暂无开奖记录'}。${data.notice}`;
   const names={'data':'V7','v2-data':'V2','v5-data':'V5','v9-data':'V9','v9-2-data':'V9.2','kill3-data':'旧杀码','position7-data':'旧定位','joint-position7-data':'联合定位','trust-position7-data':'可信定位','meta-position-data':'融合定位'};
   const states=(data.currentChannelStates ?? []).filter(s=>s.sampleCount!=null).map(s=>{
     const parts=s.id.split(':');const name=[names[parts[0]]??parts[0],...parts.slice(1)].join(' ').replace(/pool([5678])/g,'$1码').replace('dan','胆码').replace('kills','杀3码').replace('hundredsPool','百位').replace('tensPool','十位').replace('unitsPool','个位');
     return `<tr><th>${name}</th><td>${s.hitStreak ? `连中${s.hitStreak}期` : `连断${s.missStreak}期`}</td><td>${s.maxMiss ?? '—'}期</td><td>${percentage(s.missRatio ?? 0)}</td><td>${percentage(s.priorHitRate)}</td><td>${s.sampleCount}</td></tr>`;
   }).join('');
   document.querySelector('#matrix-kill3-states').innerHTML=`<p class="section-note">历史最长连断按该玩法全部可用记录统计，截至上一期；当前/最长比值仅供展示，暂不改变推荐算法。接近最长不代表下一期必然成功。缺失期不计作成功或失败，此处是各玩法自身表现，不是杀3码成功率。</p><table><thead><tr><th>玩法</th><th>上一期状态</th><th>历史最长连断</th><th>当前/最长</th><th>最近≤30条成功率</th><th>学习窗口样本</th></tr></thead><tbody>${states}</tbody></table>`;
-  const row = r => `<article><div><strong>${r.issue}期</strong><span>${r.date}</span><em>开奖 ${r.draw}</em><em>${r.phase === 'historical-reconstruction' ? '历史热度补算（不计前瞻）' : r.phase === 'forward' ? '真实前瞻' : r.phase === 'holdout' || r.phase === 'sequential-replay' ? '顺序回放' : '选模研究'}</em></div><div><span class="${r.hit ? 'matrix-hit' : 'matrix-miss'}">${r.hit ? '成功' : '失败'}</span><p>杀 ${r.kills.split('').join(' · ')} · 连断${r.missStreak}期</p></div></article>`;
+  const row = r => `<article><div><strong>${r.issue}期</strong><span>${r.date}</span><em>开奖 ${r.draw}</em><em>${r.phase === 'historical-reconstruction' ? '历史热度补算（不计前瞻）' : r.phase === 'forward' ? '真实前瞻' : r.phase === 'holdout' || r.phase === 'sequential-replay' ? '顺序回放' : '选模研究'}</em></div><div><span class="${r.hit ? 'matrix-hit' : 'matrix-miss'}">${r.hit ? '成功' : '失败'}</span><p>杀 ${r.kills.split('').join(' · ')} · ${r.phase === 'historical-reconstruction' ? '补算不计前瞻连断' : `已存样本连断${r.missStreak ?? '—'}期`}</p></div></article>`;
   const liveIssues=new Set(data.forwardHistory.map(r=>String(r.issue)));
   const records=[...data.forwardHistory,...(data.reconstructionHistory??[]).filter(r=>!liveIssues.has(String(r.issue)))].sort((a,b)=>b.date.localeCompare(a.date));
   document.querySelector('#matrix-kill3-forward').innerHTML = records.length ? records.map(row).join('') : '<p class="matrix22-empty">等待本模块首期推荐锁定并开奖。</p>';

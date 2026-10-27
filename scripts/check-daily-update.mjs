@@ -4,6 +4,16 @@ import path from 'node:path';
 import {validHeatTimestamp} from './target-heat.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+export function auditHistory({data,heat,meta,kill}) {
+  const official=(data.history??[]).filter(r=>r.date<=data.recommendation?.basedOnDate).slice(-14);
+  const status=(date,forward=[],reconstructed=[],historical=[])=>forward.some(r=>r.date===date)?'forward':reconstructed.some(r=>r.date===date)?'reconstructed':historical.some(r=>r.date===date)?'historical-replay':'missing';
+  return official.map(r=>({issue:String(r.issue),date:r.date,modules:{
+    straight:status(r.date,heat.matrix22?.liveRows,[],heat.matrix22?.replayRows),
+    coverage:status(r.date,heat.matrix22Coverage?.liveRows,[],heat.matrix22Coverage?.replayRows),
+    ...Object.fromEntries([5,6,7].map(size=>[`position${size}`,status(r.date,meta.pools?.[size]?.history,meta.pools?.[size]?.reconstructionHistory)])),
+    kill3:status(r.date,kill.forwardHistory,kill.reconstructionHistory),
+  }}));
+}
 export function checkGame({data, heat, meta, kill}, now = new Date(), {requireReady = false} = {}) {
   const parts = Object.fromEntries(new Intl.DateTimeFormat('en-CA', {
     timeZone:'Asia/Shanghai', year:'numeric', month:'2-digit', day:'2-digit',
@@ -41,7 +51,10 @@ export function checkGame({data, heat, meta, kill}, now = new Date(), {requireRe
     for(const size of [5,6,7]) if(meta.pools?.[size]?.recommendation?.heatCapturedAt!==stamp) issues.push(`融合定位${size}码与直选热度批次不同步`);
     if(kill.recommendation?.heatCapturedAt!==stamp) issues.push('融合杀码与直选热度批次不同步');
   }
-  return {ok:issues.length===0,today,expectedDate,basedOnDate:rec?.basedOnDate,targetIssue:rec?.targetIssue,locked,issues};
+  const historyAudit=auditHistory({data,heat,meta,kill});
+  // Lost pre-draw evidence must remain visible, without blocking all later updates.
+  const warnings=historyAudit.filter(r=>Object.entries(r.modules).some(([key,s])=>s==='missing'||s==='reconstructed'||(key!=='coverage'&&s==='historical-replay'))).map(r=>`${r.date} 第${r.issue}期历史证据：${Object.entries(r.modules).map(([k,v])=>`${k}=${v}`).join(', ')}；历史回放和补算不计真实前瞻，跨缺期样本连断不等于连续开奖遗漏`);
+  return {ok:issues.length===0,today,expectedDate,basedOnDate:rec?.basedOnDate,targetIssue:rec?.targetIssue,locked,issues,warnings,historyAudit};
 }
 
 async function run() {

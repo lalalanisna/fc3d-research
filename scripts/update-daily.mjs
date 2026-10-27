@@ -28,7 +28,7 @@ async function checkLocal(requireReady=false){
 }
 async function evening(){
   let clock=beijingClock();
-  if(clock.minute<1185||clock.minute>=1260)throw new Error('Evening capture must run between 19:45 and 20:59 Beijing');
+  if(clock.minute<1155||clock.minute>=1260)throw new Error('Evening capture must run between 19:15 and 20:59 Beijing');
   // Pre-warm rather than allocate a cold runner at the exact capture minute.
   while(clock.minute<1220){
     console.log(`Cloud runner ready: ${clock.date} minute ${clock.minute}; waiting for 20:20`);
@@ -73,7 +73,7 @@ async function full(){
   await checkLocal();
 }
 const clock=beijingClock();
-if(mode==='evening'||(mode==='auto'&&clock.minute>=1185&&clock.minute<1260))await evening();
+if(mode==='evening'||(mode==='auto'&&clock.minute>=1155&&clock.minute<1260))await evening();
 else if(mode==='auto'||mode==='full')await full();
 else if(mode==='matrix-only'){await Promise.all(games.map(([game])=>generateMatrices(game)));await checkLocal();}
 else throw new Error(`Unknown update mode: ${mode}`);

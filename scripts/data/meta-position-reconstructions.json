@@ -39,6 +39,26 @@
         "hundredsMissStreak": 1,
         "tensMissStreak": 1,
         "unitsMissStreak": 0
+      },
+      {
+        "issue": "2026285",
+        "date": "2026-10-26",
+        "phase": "historical-reconstruction",
+        "basedOnIssue": "2026284",
+        "heatIssue": "285",
+        "heatEvidence": "archived-ranking-no-20:20-snapshot",
+        "predictionSha256": "946552c10efeed16825b4998659ccb64e2a7ce85aa20ae900b777b136f57d0a8",
+        "draw": "932",
+        "hundredsPool": "01357",
+        "hundredsHit": false,
+        "tensPool": "01289",
+        "tensHit": false,
+        "unitsPool": "02579",
+        "unitsHit": true,
+        "allHit": false,
+        "hundredsMissStreak": null,
+        "tensMissStreak": null,
+        "unitsMissStreak": null
       }
     ],
     "6": [
@@ -80,6 +100,26 @@
         "hundredsMissStreak": 1,
         "tensMissStreak": 0,
         "unitsMissStreak": 0
+      },
+      {
+        "issue": "2026285",
+        "date": "2026-10-26",
+        "phase": "historical-reconstruction",
+        "basedOnIssue": "2026284",
+        "heatIssue": "285",
+        "heatEvidence": "archived-ranking-no-20:20-snapshot",
+        "predictionSha256": "946552c10efeed16825b4998659ccb64e2a7ce85aa20ae900b777b136f57d0a8",
+        "draw": "932",
+        "hundredsPool": "013579",
+        "hundredsHit": true,
+        "tensPool": "012689",
+        "tensHit": false,
+        "unitsPool": "012579",
+        "unitsHit": true,
+        "allHit": false,
+        "hundredsMissStreak": null,
+        "tensMissStreak": null,
+        "unitsMissStreak": null
       }
     ],
     "7": [
@@ -121,6 +161,26 @@
         "hundredsMissStreak": 1,
         "tensMissStreak": 0,
         "unitsMissStreak": 2
+      },
+      {
+        "issue": "2026285",
+        "date": "2026-10-26",
+        "phase": "historical-reconstruction",
+        "basedOnIssue": "2026284",
+        "heatIssue": "285",
+        "heatEvidence": "archived-ranking-no-20:20-snapshot",
+        "predictionSha256": "946552c10efeed16825b4998659ccb64e2a7ce85aa20ae900b777b136f57d0a8",
+        "draw": "932",
+        "hundredsPool": "0135789",
+        "hundredsHit": true,
+        "tensPool": "0125689",
+        "tensHit": false,
+        "unitsPool": "1346789",
+        "unitsHit": false,
+        "allHit": false,
+        "hundredsMissStreak": null,
+        "tensMissStreak": null,
+        "unitsMissStreak": null
       }
     ]
   },
@@ -164,6 +224,26 @@
         "hundredsMissStreak": 0,
         "tensMissStreak": 0,
         "unitsMissStreak": 1
+      },
+      {
+        "issue": "26285",
+        "date": "2026-10-26",
+        "phase": "historical-reconstruction",
+        "basedOnIssue": "26284",
+        "heatIssue": "285",
+        "heatEvidence": "archived-ranking-no-20:20-snapshot",
+        "predictionSha256": "946552c10efeed16825b4998659ccb64e2a7ce85aa20ae900b777b136f57d0a8",
+        "draw": "613",
+        "hundredsPool": "34567",
+        "hundredsHit": true,
+        "tensPool": "12489",
+        "tensHit": true,
+        "unitsPool": "01345",
+        "unitsHit": true,
+        "allHit": true,
+        "hundredsMissStreak": null,
+        "tensMissStreak": null,
+        "unitsMissStreak": null
       }
     ],
     "6": [
@@ -205,6 +285,26 @@
         "hundredsMissStreak": 2,
         "tensMissStreak": 0,
         "unitsMissStreak": 1
+      },
+      {
+        "issue": "26285",
+        "date": "2026-10-26",
+        "phase": "historical-reconstruction",
+        "basedOnIssue": "26284",
+        "heatIssue": "285",
+        "heatEvidence": "archived-ranking-no-20:20-snapshot",
+        "predictionSha256": "946552c10efeed16825b4998659ccb64e2a7ce85aa20ae900b777b136f57d0a8",
+        "draw": "613",
+        "hundredsPool": "012579",
+        "hundredsHit": false,
+        "tensPool": "123489",
+        "tensHit": true,
+        "unitsPool": "013456",
+        "unitsHit": true,
+        "allHit": false,
+        "hundredsMissStreak": null,
+        "tensMissStreak": null,
+        "unitsMissStreak": null
       }
     ],
     "7": [
@@ -246,6 +346,26 @@
         "hundredsMissStreak": 2,
         "tensMissStreak": 0,
         "unitsMissStreak": 0
+      },
+      {
+        "issue": "26285",
+        "date": "2026-10-26",
+        "phase": "historical-reconstruction",
+        "basedOnIssue": "26284",
+        "heatIssue": "285",
+        "heatEvidence": "archived-ranking-no-20:20-snapshot",
+        "predictionSha256": "946552c10efeed16825b4998659ccb64e2a7ce85aa20ae900b777b136f57d0a8",
+        "draw": "613",
+        "hundredsPool": "0125789",
+        "hundredsHit": false,
+        "tensPool": "1234789",
+        "tensHit": true,
+        "unitsPool": "0134567",
+        "unitsHit": true,
+        "allHit": false,
+        "hundredsMissStreak": null,
+        "tensMissStreak": null,
+        "unitsMissStreak": null
       }
     ]
   }

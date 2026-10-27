@@ -11,6 +11,18 @@
       "predictionSha256": "8629c5534bbb17f650e4dc6c68a73742d00bf8fcc35e23369464137146c57090",
       "heatEvidence": "archived-ranking-no-20:20-snapshot",
       "missStreak": 1
+    },
+    {
+      "issue": "2026285",
+      "date": "2026-10-26",
+      "draw": "932",
+      "kills": "023",
+      "hit": false,
+      "phase": "historical-reconstruction",
+      "basedOnIssue": "2026284",
+      "predictionSha256": "946552c10efeed16825b4998659ccb64e2a7ce85aa20ae900b777b136f57d0a8",
+      "heatEvidence": "archived-ranking-no-20:20-snapshot",
+      "missStreak": null
     }
   ],
   "pl3": [
@@ -25,6 +37,18 @@
       "predictionSha256": "8629c5534bbb17f650e4dc6c68a73742d00bf8fcc35e23369464137146c57090",
       "heatEvidence": "archived-ranking-no-20:20-snapshot",
       "missStreak": 1
+    },
+    {
+      "issue": "26285",
+      "date": "2026-10-26",
+      "draw": "613",
+      "kills": "135",
+      "hit": false,
+      "phase": "historical-reconstruction",
+      "basedOnIssue": "26284",
+      "predictionSha256": "946552c10efeed16825b4998659ccb64e2a7ce85aa20ae900b777b136f57d0a8",
+      "heatEvidence": "archived-ranking-no-20:20-snapshot",
+      "missStreak": null
     }
   ]
 }
